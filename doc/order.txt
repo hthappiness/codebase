@@ -1,0 +1,16 @@
+kubectl exec -it vias-trace-pod-0 -c traceserver /bin/bash
+cd /var/lib/restful/common/product/aix/yaml
+kubectl delete -f vias-vs-05019010000StatefulSet.yaml
+kubectl get pods | grep vias
+kubectl delete sts vias-sc-pod
+kubectl create -f vias-sc-podStatefulSet.yaml
+kubectl delete sts vias-sc-pod
+kubectl create -f vias-sc-podStatefulSet.yaml
+kubectl delete sts vias-sc-pod
+kubectl get pods | grep vias
+kubectl create -f vias-sc-podStatefulSet.yaml
+kubectl exec -it vias-trace-pod-0 -c traceserver /bin/bash
+
+kubectl exec -it vias-sc-pod-0 /bin/bash
+
+kubectl exec -it vias-vs-05019010000-pod-0 /bin/bash

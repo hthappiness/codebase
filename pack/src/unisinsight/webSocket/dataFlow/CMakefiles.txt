@@ -1,0 +1,34 @@
+find_package(Threads REQUIRED)
+add_library(basic_process INTERFACE)
+target_compile_options(basic_process INTERFACE -Wall)
+target_compile_features(basic_process INTERFACE cxx_std_11)
+target_link_libraries(basic_process INTERFACE Threads::Threads)
+
+#target_xxx_xxxx
+
+set(LibDataflowSrc
+
+	)
+
+add_library(dataFlow SHARED ${LibDataflowSrc})
+target_compile_definitions(dataFlow PUBLIC BOOST_THREAD_VERSION=4)
+target_include_directories(dataFlow PUBLIC 
+${${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/include} ) //内置
+
+link_directories(${${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/lib})
+
+target_link_libraries(dataFlow PUBLIC 
+boost_file_system
+boost_thread
+boost_system
+glog
+glags
+basic_process
+)
+
+add_library(data_application INTERFACE)
+target_link_libraries(data_application INTERFACE dataFLow)
+target_compile_options(vias_application INTERFACE -fPIE)
+
+add_library(data_plugin INTERFACE)
+target_link_libraries(data_plugin INTERFACE dataFlow)

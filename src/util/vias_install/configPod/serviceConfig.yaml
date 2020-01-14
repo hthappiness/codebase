@@ -1,0 +1,49 @@
+services:
+- name: vias-db-service
+  isNodePort: true
+  ports:
+  - name: db-5092
+    port: 5092
+  servicePod: vias-db-pod
+  
+- name: vias-res-service
+  isNodePort: true
+  ports:
+  - name: res-5100
+    port: 5100
+  servicePod: vias-res-pod
+  
+- name: vias-ag-service
+  isNodePort: true
+  ports:
+  - name: ag-5096
+    port: 5096
+    nodePort: 5096
+  servicePod: vias-ag-pod
+  
+- name: vias-sc-service
+  isNodePort: true
+  ports:
+  - name: sc-5089
+    port: 5089
+  servicePod: vias-sc-pod
+  
+- name: vias-trace-service
+  isNodePort: true
+  ports:
+  - name: trace-http-5090
+    port: 5090
+    nodePort: 5090
+  - name: trace-ws-13200
+    targetPort: 13200
+    port: 13200
+    nodePort: 13200
+  - name: trace-srs-13202
+    targetPort: 1935
+    port: 1935
+    nodePort: 13202
+  - name: trace-srs-13204
+    targetPort: 8080
+    port: 8080
+    nodePort: 13204
+  servicePod: vias-trace-pod

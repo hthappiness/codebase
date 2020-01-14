@@ -1,0 +1,27 @@
+
+cmake_minimum_required(VERSION 3.10)
+
+project("dataFlow"
+	VERSION 0.0.1
+	LANGUAGES CXX C
+)
+
+if(NOT CMAKE_BUILD_TYPE)
+	set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+
+message("${CMAKE_CURRENT_SOURCE_DIR}")
+
+SET(CMAKE_C_COMPILER)
+add_compile_options(-std=c++11)
+
+set(ThirdPartyIncludeDir ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/include )
+set(ThirdPartyLibDir ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/lib )
+
+link_directories(${ThirdPartyLibDir} ${CMAKE_CURRENT_SOURCE_DIR}/driver/lib_x86 )
+
+include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/../${ThirdPartyIncludeDir})
+
+add_subdirectory(src)

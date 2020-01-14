@@ -1,0 +1,41 @@
+pods:
+- name: vias-db-pod
+  replicas: 1
+  containers:
+  - dbserver
+  stateful: true
+  onePerNode: false
+  hostnetwork: false
+  
+- name: vias-res-pod
+  replicas: 1
+  containers:
+  - resserver
+  stateful: true
+  onePerNode: false
+  hostnetwork: false
+  
+- name: vias-ag-pod
+  replicas: 1
+  containers:
+  - agserver
+  stateful: true
+  onePerNode: false
+  hostnetwork: false
+
+- name: vias-sc-pod
+  replicas: 1
+  containers:
+  - scserver
+  stateful: true
+  onePerNode: false
+  hostnetwork: false
+  
+- name: vias-trace-pod
+  replicas: 1
+  containers:
+  - traceserver
+  - srsserver
+  stateful: true
+  onePerNode: false
+  hostnetwork: false
