@@ -26,6 +26,7 @@ private:
     handler m_handle;
 };
 
+#if 0
 class CIoNetDataObject:public CIoObject
 {
 public:
@@ -34,6 +35,8 @@ public:
 
     }
 };
+#endif
+
 class CNetUdpObject:public CIoObject
 {
     udp::socket m_socket;
@@ -49,14 +52,13 @@ public:
 
     void do_read()
     {
-        auto self(shared_from_this());
-        boost::asio::async_read(socket_,
-            boost::asio::buffer(read_msg_.body(), read_msg_.body_length()),
+        m_socket.async_read(boost::asio::buffer(read_msg_.body(), read_msg_.body_length()),
             [this, self](boost::system::error_code ec, std::size_t /*length*/)
             {
             if (!ec)
             {
-                m_dispatcher.deliver(read_msg_);//回调实现
+                //m_dispatcher.deliver(read_msg_);//回调实现
+                m_netCallback(read_msg_.body(), read_msg_.body_length());
                 do_read();
             }
             else
@@ -66,17 +68,16 @@ public:
             });
     }
 
-    void do_write(std::size_t length)
+    void do_write(char* data, std::size_t length)
     {
-        boost::asio::async_write(m_socket, boost::asio::buffer(data_, length),
-            make_custom_alloc_handler(handler_memory_,
-            [this, self](boost::system::error_code ec, std::size_t /*length*/)
+        m_socket.async_write(boost::asio::buffer(data, length),
+            [this](boost::system::error_code ec, std::size_t /*length*/)
             {
                 if (!ec)
                 {
                     do_read();
                 }
-            }));
+            });
     }
 
 private:
@@ -95,6 +96,8 @@ class CAsioServer
 public:
  
     int plugFileObject();
+
+    virtual int serverStart(int iCnt);
 
 public:
     std::vector<std::thread> m_threadVec;
@@ -122,15 +125,17 @@ class CAsioTcpServer : public CAsioServer
      
     }
 
-    int serverStart(int iCnt)
+    int serverStart(int iCnt) override
     {
         start();
-        for(auto i=0;i<iCnt;i+=)
+        for(auto i=0;i<iCnt;i++)
         {
             m_threadVec.push_back([this](){
                 m_ioCtx.run();
                 });
         }
+
+        m_ioCtx.run();//block until no task in the executor context
     }
 
     int start()
@@ -140,7 +145,7 @@ class CAsioTcpServer : public CAsioServer
             {
                 if (!ec)
                 {
-                    std::make_shared<CIoNetDataObject>(std::move(socket), m_netCallback)->start();
+                    std::make_shared<CNetTcpObject>(std::move(socket), m_netCallback)->start();
                 }
 
                 start();
