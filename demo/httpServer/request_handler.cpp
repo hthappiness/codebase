@@ -15,6 +15,7 @@
 #include "mime_types.hpp"
 #include "reply.hpp"
 #include "request.hpp"
+#include <iostream>
 
 namespace http {
 namespace server {
@@ -33,6 +34,8 @@ void request_handler::handle_request(const request& req, reply& rep)
     rep = reply::stock_reply(reply::bad_request);
     return;
   }
+
+  std::cout<<"url is:"<<request_path<<"\r\n";
 
   // Request path must be absolute and not contain "..".
   if (request_path.empty() || request_path[0] != '/'
