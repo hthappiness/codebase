@@ -83,6 +83,8 @@ public:
 private:
     tcp::socket m_socket;
     netMsgCb m_netCallback;
+
+    std::array<char, 8192> buffer_;
 };
 
 class CFileObject:public CIoObject
