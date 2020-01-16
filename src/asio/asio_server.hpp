@@ -21,7 +21,10 @@ class CIoObject
 {
     using handler = std::function<void ()>;
 private:
-    int operator()();
+    int operator()(char* pBuf, int iLen)
+    {
+        m_handle(pBuf, iLen);
+    }
 private:
     handler m_handle;
 };
@@ -84,7 +87,7 @@ private:
     tcp::socket m_socket;
     netMsgCb m_netCallback;
 
-    std::array<char, 8192> buffer_;
+    std::array<char, 8192> read_msg_;
 };
 
 class CFileObject:public CIoObject
