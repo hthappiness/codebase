@@ -13,6 +13,8 @@
 #include <vector>
 #include "connection_manager.hpp"
 #include "request_handler.hpp"
+#include <thread>
+#include <chrono>
 
 namespace http {
 namespace server {
@@ -46,7 +48,8 @@ void connection::do_read()
           request_parser::result_type result;
           std::tie(result, std::ignore) = request_parser_.parse(
               request_, buffer_.data(), buffer_.data() + bytes_transferred);
-
+			
+			std::this_thread::sleep_for(std::chrono::seconds(20));
           if (result == request_parser::good)
           {
             request_handler_.handle_request(request_, reply_);
@@ -82,6 +85,8 @@ void connection::do_write()
           socket_.shutdown(boost::asio::ip::tcp::socket::shutdown_both,
             ignored_ec);
         }
+		
+		std::this_thread::sleep_for(std::chrono::seconds(20));
 
         if (ec != boost::asio::error::operation_aborted)
         {
