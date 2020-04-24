@@ -5,12 +5,16 @@
 #include <string>
 #include <cstring>
 #include <memory>
+
 using namespace std;
+
+//https://www.cnblogs.com/luzhlon/p/7055385.html
+
 class mybuf : public streambuf {
 public:
 	enum{ SIZE = 100};
 	mybuf() {
-		memset(buffer, 'j', 10);
+		memset(buffer, 'j', SIZE);
 		buffer[3] = 'c';
 		setbuf(buffer, SIZE);
 	}

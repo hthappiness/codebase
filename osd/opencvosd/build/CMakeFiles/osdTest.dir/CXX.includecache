@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/hting/mnt/codebase/osd/opencvosd/CvOsd.cpp
+opencv2/opencv.hpp
+/home/hting/mnt/codebase/osd/opencvosd/opencv2/opencv.hpp
+CvxText.h
+/home/hting/mnt/codebase/osd/opencvosd/CvxText.h
+
+/home/hting/mnt/codebase/osd/opencvosd/CvxText.cpp
+wchar.h
+-
+assert.h
+-
+locale.h
+-
+ctype.h
+-
+CvxText.h
+/home/hting/mnt/codebase/osd/opencvosd/CvxText.h
+
+/home/hting/mnt/codebase/osd/opencvosd/CvxText.h
+ft2build.h
+-
+cv.h
+-
+highgui.h
+-
+

@@ -114,7 +114,7 @@ S32 extractFile(CFile& );
  */
 
 //学习库的方法论
-/* 1. 类图关系，http://www.cplusplus.com/reference/ios/； 描述什么过程，解决什么问题
+/* 1. 类图关系，http://www.cplusplus.com/reference/ios/； 描述什么过程，解决什么问题;其抽象，其完成的功能
  * 2. 重视public接口，重视运用，重视实现 --->循序渐进
  * 3. 关注其设计，职责划分、解耦的方法，提升性能的方法
  * 4. c++ api设计，以继承、聚合的形式使用 + 静态检测 + 

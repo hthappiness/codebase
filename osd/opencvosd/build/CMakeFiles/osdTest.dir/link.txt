@@ -1,0 +1,1 @@
+/usr/bin/c++   -g   CMakeFiles/osdTest.dir/CvOsd.cpp.o CMakeFiles/osdTest.dir/CvxText.cpp.o  -o osdTest  -L/home/hting/3rdparty/lib 

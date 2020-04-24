@@ -1,0 +1,3 @@
+/home/hting/mnt/codebase/osd/opencvosd/build/CMakeFiles/edit_cache.dir
+/home/hting/mnt/codebase/osd/opencvosd/build/CMakeFiles/rebuild_cache.dir
+/home/hting/mnt/codebase/osd/opencvosd/build/CMakeFiles/osdTest.dir
