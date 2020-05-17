@@ -16,6 +16,7 @@ namespace dataFlow {
 
 		//auto callback = []
 
+		// typename ProducerType::SlotType 这是调用slot的构造函数
 		return spProducer->addOutput(typename ProducerType::SlotType(
 			[pConsumer](const typename ProducerType::OutputType& output) {
 			pConsumer->consumer1(output);
