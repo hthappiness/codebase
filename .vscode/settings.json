@@ -34,6 +34,13 @@
         "streambuf": "cpp",
         "thread": "cpp",
         "typeinfo": "cpp",
-        "condition_variable": "cpp"
+        "condition_variable": "cpp",
+        "atomic": "cpp",
+        "cmath": "cpp",
+        "cstdarg": "cpp",
+        "cstring": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "numeric": "cpp"
     }
 }
