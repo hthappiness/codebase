@@ -1,12 +1,19 @@
 
 
 #include <memory>
+#include <functional>
+
+#include "Doraemon\base\noncopyable.h"
+
+//如果想在该模式中添加更多的内容，就必须做更多的抽象，使之成为这个层次的内容
 
 class CWorkNode
 {
     using pfEndHandler = std::function<void ()>;
 public:
     CWorkNode(pfEndHandler = nullptr);
+
+    /* When finishing ， call finish interface*/
     virtual void process(Doraemon::base::UnifiedMap&) = 0;
     virtual void setFlag(bool bFlag) = 0;
     void finish(Doraemon::base::UnifiedMap& data)
@@ -20,7 +27,7 @@ public:
             m_next->process(data);
         }
     }
-    void setNext(std::shared_ptr<CWorkNode> next){m_next = next;}
+    void setNext(std::shared_ptr<CWorkNode>& next){m_next = next;}
     void processNext();
 private:
     std::shared_ptr<CWorkNode> m_next;
@@ -33,7 +40,7 @@ class CWorkChain
 public:
     explicit CWorkChain(std::shared_ptr<CWorkNode>& startNode)
     {
-        m_startNode = startNode；
+        m_startNode = startNode;
     }
     ~CWorkChain();
 
@@ -42,7 +49,10 @@ public:
     int destroy();
 
     /* called in consume */
-    int inData();
+    int inData()
+    {
+        //m_startNode->process();
+    }
 private:
     std::shared_ptr<CWorkNode> m_startNode;
     bool m_closed;
@@ -57,13 +67,7 @@ public:
     virtual void process(Doraemon::base::UnifiedMap&);
 };
 
-class CDecodeNode : public CWorkNode
-{
-public:
-    virtual void process(Doraemon::base::UnifiedMap&);
-};
-
-class CVencNode : public CWorkNode
+class CWatermarkNode : public CWorkNode
 {
 public:
     virtual void process(Doraemon::base::UnifiedMap&);
@@ -75,6 +79,8 @@ public:
     virtual void process(Doraemon::base::UnifiedMap&);
 };
 
+
+//CVideoChannel, 只用和WmWorkChain耦合
 class CWmWorkChain : public CWorkChain
 {
 public:
