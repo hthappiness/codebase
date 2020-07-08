@@ -1,5 +1,5 @@
 
-typedef unsigned int U32;
+#include "base_type.h"
 
 /* 支持随机访问 */
 /* 支持顺序访问 */

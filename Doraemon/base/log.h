@@ -6,11 +6,13 @@
 #define TC_WARN  2
 #define TC_ERROR 3
 
+//c形式的打印，  c++式stream based的打印
 #define LOGI(format, ...) logger(TC_INFO, __FILE__, __LINE__, __func__, format, ##__VA_ARGS__)
 #define LOGW(format, ...) logger(TC_WARN, __FILE__, __LINE__, __func__, format, ##__VA_ARGS__)
 #define LOGE(format, ...) logger(TC_ERROR, __FILE__, __LINE__, __func__, format, ##__VA_ARGS__)
 
 #include <strarg.h>
+#include <mutex>
 
 inline void logger(long lLevel, const char* fileName, long lLineNum, const char* funcName, const char* format, ...)
 {
@@ -39,5 +41,6 @@ inline void logger(long lLevel, const char* fileName, long lLineNum, const char*
 
     snprintf(buffer, logBufferSize, "[%s:%ld @ %s] %s", fileName, lLineNum, funcName, Tempbuffer) ;
 
-    LOG(INFO)<<"["<<buffer<<"]";
+    //callback
+    //LOG(INFO)<<"["<<buffer<<"]";
 }

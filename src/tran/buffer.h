@@ -1,4 +1,12 @@
 
+#pragma once
+
+#include <mutex>
+#include <condition_variable>
+#include <memory>
+#include <thread>
+#include <functional>
+
 class CBaseBuf
 {
 public:
@@ -169,7 +177,7 @@ private:
 
     //CMccMsgPoller  m_MccMsgHandler;
     CMccMsgWrapper m_MccMsgWrapper;
-    std::unique_ptr<ITranEventCb> m_EventCb;
+    std::unique_ptr<ITranEventCb> m_eventCb; //user interface, for callback. 
     CIoThread m_IoPoller;
 };
 

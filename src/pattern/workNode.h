@@ -15,7 +15,9 @@ public:
 
     /* When finishing ， call finish interface*/
     virtual void process(Doraemon::base::UnifiedMap&) = 0;
+    
     virtual void setFlag(bool bFlag) = 0;
+    
     void finish(Doraemon::base::UnifiedMap& data)
     {
         if( nullptr == m_next ) /* last node */
@@ -27,8 +29,11 @@ public:
             m_next->process(data);
         }
     }
+    
     void setNext(std::shared_ptr<CWorkNode>& next){m_next = next;}
+    
     void processNext();
+
 private:
     std::shared_ptr<CWorkNode> m_next;
     pfEndHandler m_handler;

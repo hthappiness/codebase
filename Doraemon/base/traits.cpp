@@ -116,3 +116,18 @@ operation Num:5
 operation Num:6
 [root@iaemb01 base]#
 */
+
+typedef void (*func)(void* args, int errCode);
+
+class Closure
+{
+
+};
+
+class CExecCtx
+{
+  static void run()
+  {
+
+  }
+};

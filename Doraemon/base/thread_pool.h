@@ -29,6 +29,17 @@ namespace Doraemon{
             std::once_flag m_stop_flag;
         };
 
+        /*关于c++的抽象
+         *1、描述抽象语义的语言形式
+         *2、类型的操作
+         *3、比如下面的F, 可调用对象作为模板参数，本身就没有对F本身做太多限制，所以根本不知道F的返回值，
+         *   所以，需要一个功能，根据调用对象获取其返回值类型
+         *4、函数抽象，闭包，结果抽象，；同时封装promise--->set_value、future--->get
+             auto ret = postTask();
+             ret.get()
+             std::packaged_task, std::async
+         *5、  
+         */
         template<typename F, typename... Args>
         auto postTask(F&& func, Args... args)->std::future<typename std::result_of<F(Args...)>::type>
         {
@@ -37,6 +48,8 @@ namespace Doraemon{
             auto task = std::make_shared<std::packaged_task<return_type()>>)(
                 std::bind(std::forward<F>(func), std::forward<Args>(args)...)
             );
+
+            std::future<return_type> ret = task->get_future();
 
             m_tasks.put([task] {(*task)()};);
 
