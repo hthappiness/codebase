@@ -12,3 +12,18 @@ This will be seperated into several parts below.
 
 4. abstract io object and io operation, socket object , linux file descriptor----------->driver fd
    
+
+
+about io
+1. io core
+
+2. io object
+  socket
+  fd: eventfd, driver, pipe, serial
+
+3. multi io
+  poll epoll select
+
+4. platform
+   windows
+   linux: posix 

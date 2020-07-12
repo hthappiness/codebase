@@ -6,7 +6,7 @@
 #define TC_WARN  2
 #define TC_ERROR 3
 
-//c形式的打印，  c++式stream based的打印
+//c锟斤拷式锟侥达拷印锟斤拷  c++式stream based锟侥达拷印
 #define LOGI(format, ...) logger(TC_INFO, __FILE__, __LINE__, __func__, format, ##__VA_ARGS__)
 #define LOGW(format, ...) logger(TC_WARN, __FILE__, __LINE__, __func__, format, ##__VA_ARGS__)
 #define LOGE(format, ...) logger(TC_ERROR, __FILE__, __LINE__, __func__, format, ##__VA_ARGS__)
