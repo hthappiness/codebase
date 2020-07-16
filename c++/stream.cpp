@@ -77,7 +77,85 @@ private:
 	char buffer[SIZE];
 };
 
-int main() 
+class resultHeader
+{
+public:
+	void setId(unsigned char id){id_ = id;}
+	void setLen(unsigned char len){len_ = len;}
+	unsigned char getId(){return id_;}
+	unsigned char getLen(){return len_;}
+private:
+	friend istream& operator>>(istream& istream, resultHeader& header);
+	friend ostream& operator<<(ostream& istream, resultHeader& header);
+	unsigned char id_;
+	unsigned char len_;
+};
+
+istream& operator>>(istream& istream, resultHeader& header)
+{
+	istream >> header.id_;
+	istream >> header.len_;
+	return istream;
+}
+
+ostream& operator<<(ostream& ostream, resultHeader& header)
+{
+	ostream << header.id_;
+	ostream << header.len_;
+	return ostream;
+}
+
+class resultbuf : public streambuf {
+public:
+	enum{ SIZE = 10};
+	resultbuf() {
+		//memcpy(buffer, &header, sizeof(resultHeader));
+		setbuf(buffer, SIZE);
+	}
+	void log() {
+		cout << "log:" << hex << gptr() << endl;
+	}
+protected:
+	
+	streambuf* setbuf(char* s, streamsize n) {
+		
+		// Set output sequence pointers
+		setp(s, s + n);
+
+		// Set input sequence pointers
+		setg(s, s, s + n);
+		return this;
+	}
+	
+	// 溢出;输出缓冲区不够用时调用
+	int_type overflow( int_type c) {
+		cout << "overflow" << endl;
+		return c;
+	}
+
+	// underflow和uflow在输入缓冲区无数据时调用
+	int_type underflow() override{
+		cout << "underflow"<<endl;
+		memset(buffer, 'w', 10);
+
+		// Set input sequence pointers. device提供的数据比较多，或者mem端读取数据
+		setg(buffer, buffer, buffer+10);
+		return ' ';
+	}
+
+	int_type uflow() override{
+		cout << "uflow" << endl;
+		memset(buffer, 'x', 10);
+
+		// Set input sequence pointers. device提供的数据比较多，或者mem端读取数据
+		setg(buffer, buffer, buffer + 10);
+		return EOF;
+	}
+private:
+	char buffer[SIZE];
+};
+
+int testMyBuf() 
 {
 	mybuf buf;
 
@@ -105,6 +183,40 @@ int main()
     cout<< "test: "<< test << endl;
 
 	cout << "end" << endl;
+
+	return 0;
+}
+
+// 字节流
+int testResultBuf()
+{
+	resultbuf buffer;
+
+	resultHeader writeHeader;
+	writeHeader.setId(0x12);
+	writeHeader.setLen(0x38);
+	ostream out(&buffer);
+	out << writeHeader;   //输出缓冲区溢出，调用overflow
+
+	buffer.log();
+
+	std::cout << "-------start input. reader-------\r\n" ;
+
+	resultHeader readHeader;
+	istream in(&buffer);
+	in >> readHeader;   //输入缓冲区没有数据，调用underflow
+
+	std::cout << std::hex << static_cast<int>(readHeader.getId()) << std::endl;
+	std::cout << std::hex << static_cast<int>(readHeader.getLen())<< std::endl;
+
+	buffer.log();
+
+	return 0;
+}
+
+int main()
+{
+	testResultBuf();
 
 	return 0;
 }

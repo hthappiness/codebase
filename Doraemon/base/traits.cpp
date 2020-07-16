@@ -56,6 +56,22 @@ public:
   }
 };
 
+class CCallopInterface
+{
+protected:
+  void perform();   
+};
+
+class Call
+{
+public:
+  void performOps(CCallopInterface* callopSet)
+  {
+    callopSet->fillop(this);
+  }
+};
+
+//偏特化Partial specialization
 template <class Op1 = CallNoOp<1>, class Op2 = CallNoOp<2>,
           class Op3 = CallNoOp<3>, class Op4 = CallNoOp<4>,
           class Op5 = CallNoOp<5>, class Op6 = CallNoOp<6>>
@@ -67,8 +83,32 @@ class CallOpMsgId
 public:
   void perform()
   {
-    std::cout << "certain operation Num :" << N << std::endl;
+    std::cout << "default certain operation Num :" << N << std::endl;
   }
+};
+
+class CallOpInquire
+{
+public:
+  int inquireAvailabel();
+protected:
+  void perform(); 
+};
+
+class CallOpStartTask
+{
+public:
+  int startTask();
+protected:
+    void perform();
+};
+
+class CallOpCommit
+{
+public:
+  int startCommit();
+protected:
+    void perform();
 };
 
 template <class Op1, class Op2, class Op3, class Op4, class Op5, class Op6>
@@ -88,6 +128,14 @@ class CallOpSet : public Op1,
         this->Op5::perform();
         this->Op6::perform();
     }
+
+    void fillop(Call* pstCall)
+    {
+
+    }
+
+  private:
+    //interceptor m_interceptorManager; 关于截获的逻辑
 };
 
 int main()

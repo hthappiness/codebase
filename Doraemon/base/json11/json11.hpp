@@ -76,6 +76,9 @@ enum JsonParse {
 
 class JsonValue;
 
+//It is json basic component, a set of items.
+//A json may be a number, a bool, a string ,a array , a object, and so on.
+//based on the shared pointer of JsonValue
 class Json final {
 public:
     // Types

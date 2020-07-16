@@ -1,5 +1,7 @@
 
 #include <string>
+#include <fstream>
+#include <sstream>
 
 typedef unsigned char U8;
 typedef char S8;
@@ -88,7 +90,7 @@ public:
     //3.
 private:
     std::string m_fileName;
-    fstream m_fileStream;
+    std::fstream m_fileStream;
 };
 
 S32 InterConnect(CFile& , CFile& b, std::string& targetName);
