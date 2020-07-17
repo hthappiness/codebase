@@ -46,6 +46,17 @@ class D : public A{
 
 };
 
+class CInterceptor
+{
+public:
+    int addMethod();
+
+public:
+
+private:
+  std::vector<>;
+};
+
 template<int N>
 class CallNoOp
 {
@@ -135,7 +146,7 @@ class CallOpSet : public Op1,
     }
 
   private:
-    //interceptor m_interceptorManager; 关于截获的逻辑
+    //std::shared_ptr<CInterceptor> m_spInterceptor; //关于截获的逻辑
 };
 
 int main()

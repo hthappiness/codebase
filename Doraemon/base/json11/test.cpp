@@ -1,8 +1,35 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include "json11.hpp"
+
+/* 自定义对象 */
+class CTestJson
+{
+public:
+    CTestJson(std::string str = "testJson", int id = 255)
+    {
+        name_ = str;
+        id_ = id;
+    }
+    //json11::Json to_json() 
+    // compiler error:passing ‘const CTestJson’ as ‘this’ argument of 
+    // ‘json11::Json CTestJson::to_json()’ discards qualifiers [-fpermissive] 去除限定符
+    json11::Json to_json() const
+    {
+        return json11::Json{
+            json11::Json::object{
+                {"name", name_},
+                {"id", id_}
+            }
+        };
+    }
+private:
+    std::string name_;
+    int         id_;
+};
 
 int deserialize(std::string& str)
 {
@@ -73,8 +100,66 @@ int serialize(std::string& str)
     str = root.dump();
 
     std::cout << "dump result:" << str << std::endl;
+#if 1
+    //一个单独的string
+    auto obj = json11::Json{"hello world"};
+    auto test = obj.dump();
+
+    std::cout << "dump result 2:" << test << std::endl; // "hello world"
+#endif
+
+#if 1
+    //一个单独的string
+    CTestJson jsonClass("xixixi", 890);
+    //auto obj3  = json11::Json(jsonClass);  // explicit, both ok
+    json11::Json obj3 = jsonClass;   // implicit
+    auto test3 = obj3.dump();
+
+    std::cout << "dump result 3:" << test3 << std::endl; // "hello world"
+#endif
+    return 0;
+}
+
+int persistize(std::string& jsonStr)
+{
+    // output , output to file
+    std::ofstream fileStream("/home/hting/student.json");
+    if( fileStream.is_open() )
+    {
+        fileStream << jsonStr << std::endl;
+
+        fileStream.close();
+    }
 
     return 0;
+}
+
+int readFile()
+{
+    std::ifstream fileStream("/home/hting/student.json");
+    if( fileStream.is_open() )
+    {
+        std::string file;
+        #if 1
+        // 流操作,读取的数据大小是以一定格式进行的
+        while( !fileStream.eof())
+        {
+            fileStream >> file ;
+            std::cout << file << std::endl;
+        }
+       #else
+
+        while( !fileStream.eof())
+        {
+            //getline 按行读取 \n
+            std::getline(fileStream, file);
+            std::cout << file << std::endl;
+        }
+        #endif
+
+        fileStream.close();
+    }
+
 }
 
 int main()
@@ -84,6 +169,10 @@ int main()
     serialize(str);
 
     deserialize(str);
+
+    persistize(str);
+
+    readFile();
 
     return 0;
 }

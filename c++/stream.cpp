@@ -195,7 +195,7 @@ int testResultBuf()
 	resultHeader writeHeader;
 	writeHeader.setId(0x12);
 	writeHeader.setLen(0x38);
-	ostream out(&buffer);
+	std::ostream out(&buffer);
 	out << writeHeader;   //输出缓冲区溢出，调用overflow
 
 	buffer.log();
@@ -203,7 +203,7 @@ int testResultBuf()
 	std::cout << "-------start input. reader-------\r\n" ;
 
 	resultHeader readHeader;
-	istream in(&buffer);
+	std::istream in(&buffer);
 	in >> readHeader;   //输入缓冲区没有数据，调用underflow
 
 	std::cout << std::hex << static_cast<int>(readHeader.getId()) << std::endl;

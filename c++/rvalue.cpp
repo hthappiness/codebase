@@ -7,17 +7,28 @@ using namespace std;
 //为何这样设计，为何这样定义？
 //https://blog.csdn.net/veghlreywg/article/details/88556681
  
+//c++对象模型
+//1. 各种构造函数的调用
+//2. 聚合的对象初始化顺序 reorder
+//3. 
+
+static int index = 0;
+
 //新的对象模型
 class A
 {
 public:
-    A() :m_ptr(new int(0)){
-		cout << "construct" << endl;
+    A() :m_ptr(new int(0))
+	{
+		cout << "construct index = " << index << endl;
+		m_index = index;
+		index++;
 	}
 	
 	//深拷贝的拷贝构造函数
     A(const A& a):m_ptr(new int(*a.m_ptr)) 
     {
+		m_index = a.m_index;
         cout << "copy construct" << endl;
     }
 	
@@ -32,6 +43,7 @@ public:
     {
         a.m_ptr = nullptr;
 		a.m_test = 0;
+		m_index = a.m_index;
         cout << "move construct" << endl;
     }
 	
@@ -45,12 +57,22 @@ public:
 	}
 
 public:	
-    ~A(){ 
-		delete m_ptr;
+    ~A()
+	{
+		// 有的对象是通过移动构造函数生成的
+		if( nullptr != m_ptr )
+		{ 
+			delete m_ptr;
+			m_ptr = nullptr;
+			m_test = -1;
+			cout << "deconstruct, index = " << m_index << endl;
+			//cout << "deconstruct ： " << *m_ptr << endl; //这里重复析构，导致段错误
 		}
+	}
 
     int* m_ptr;
 	int m_test{5};
+	int m_index;
 };
 
 A GetA()
@@ -59,6 +81,11 @@ A GetA()
 }
 
 A&& GetALValue()
+{
+	 return A();
+}
+
+const A& GetTmpValue()
 {
 	 return A();
 }
@@ -80,28 +107,29 @@ void func(std::unique_ptr<A> && uniA)
 }
 
 //unique_ptr做函数形参，引用并未触发拷贝，所以不涉及unique_ptr的限制（只能被一个所管理）
-//void funcTest(unique_ptr<A>& uniA),这个调用就会报错，编译还不会出错，因为没有触发编译时检查，unique_ptr禁用了拷贝构造函数和赋值运算
+//void funcTest(unique_ptr<A>& uniA),这个调用就会报错，编译还不会出错，
+//因为没有触发编译时检查，unique_ptr禁用了拷贝构造函数和赋值运算
 void funcTest2(std::unique_ptr<A> uniA)
 {
-	cout << "0. Temp is :" << uniA->m_ptr  << std::endl;
+	cout << "funcTest2 0. Temp is :" << uniA->m_ptr  << std::endl;
 	uniA->m_test = 10;
 }
 
 void funcTest(std::unique_ptr<A>& uniA)
 {
-	cout << "0. Temp is :" << uniA->m_ptr  << std::endl;
+	cout << "funcTest 0. Temp is :" << uniA->m_ptr  << std::endl;
 	uniA->m_test = 10;
 }
 
 void fRValue(A&& tmpA)
 {
-	cout << "0. Temp is :" << tmpA.m_ptr  << std::endl;
+	cout << "fRValue 0. Temp is :" << tmpA.m_ptr  << std::endl;
 	tmpA.m_test = 10;
 	
-	A test = tmpA;
-	/*这里呢?*/
+	//A test = tmpA;  //区分构造行为和赋值行为
+	/*这里呢?这里，tmpA就是一个左值，触发拷贝构造函数*/
 	
-	//A test = std::move(tmpA);  
+	A test = std::move(tmpA);  
 	//触发移动构造函数；在这个语境下，tmpA是右值引用，则可以触发移动构造函数，这是其它形式无法完成的
 }
 
@@ -123,9 +151,20 @@ int main(){
     
 	std::cout << "---------------------1--------------------------" << std::endl;
 	A a = GetA(); //调用构造函数
+	/* 在不开启返回值优化的时候，可见，两次移动构造函数，两次析构 
+	---------------------1--------------------------
+	construct index = 0
+	move construct
+	deconstruct, index = 0
+	move construct
+	deconstruct, index = 0
+ 	*/
 	
 	std::cout << "---------------------2--------------------------" << std::endl;
-	A b = GetALValue(); //调用构造函数 和 移动构造函数
+	//A b = GetALValue(); //调用构造函数 和 移动构造函数
+	A&& c = GetALValue();
+	c.m_test = 224;
+	std::cout << "This is :" << c.m_test << std::endl;
 
 	std::cout << "---------------------3--------------------------" << std::endl;
 	A p;
@@ -152,7 +191,6 @@ int main(){
 	//std::cout << "2. This is :" << p1.m_ptr << std::endl;
 	p.show() ;
 
-
 	/* test unique_ptr, 通过禁用拷贝构造等方式在编译器检查错误 */
 	#if 0
 	auto uniqueA = std::unique_ptr<A>(new A());
@@ -163,6 +201,12 @@ int main(){
 	
 	uniqueA->show();
 	#endif
+
+	std::cout << "--------------------11--------------------------" << std::endl;
+	{
+		const A& d = GetTmpValue();
+		std::cout << "This is :" << d.m_test << std::endl;
+	}
 	
 	//test git log
 	
@@ -170,3 +214,35 @@ int main(){
 }
 
 //g++ -std=c++11 rvalue.cpp -o rvalue
+
+#if 0
+[root@iaemb01 c++]# ./rvalue
+---------------------1--------------------------
+construct index = 0
+---------------------2--------------------------
+construct index = 1
+deconstruct, index = 1
+This is :224
+---------------------3--------------------------
+construct index = 2
+var = 5
+---------------------4--------------------------
+move construct
+move . This is :0x2024030
+---------------------5--------------------------
+construct index = 3
+0. Temp is :0x2024050
+copy construct
+deconstruct, index = 32766
+deconstruct, index = 3
+1. This is :0
+var = 0
+--------------------11--------------------------
+construct index = 4
+deconstruct, index = 4
+This is :-1
+deconstruct, index = 0
+deconstruct, index = 2
+deconstruct, index = 0
+[root@iaemb01 c++]#
+#endif

@@ -79,6 +79,9 @@ class JsonValue;
 //It is json basic component, a set of items.
 //A json may be a number, a bool, a string ,a array , a object, and so on.
 //based on the shared pointer of JsonValue
+//every key-value item, the value may be null, number, bool, string, array or object
+// 只有json能dump，而jsonObject、jsonbool等不是一个完整的可以序列化的json
+// 直观地从接口看，就是对象（vector<T>, int, string等对象）到string的转换功能
 class Json final {
 public:
     // Types
@@ -105,6 +108,7 @@ public:
     Json(object &&values);          // OBJECT
 
     // Implicit constructor: anything with a to_json() function.
+    // attention. const means the "to_json" function has to be declare const, which not change the member variable. 
     template <class T, class = decltype(&T::to_json)>
     Json(const T & t) : Json(t.to_json()) {}
 
