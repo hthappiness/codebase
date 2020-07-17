@@ -59,6 +59,7 @@ public:
 public:	
     ~A()
 	{
+		cout << "deconstruct called, index = " << m_index << endl;
 		// 有的对象是通过移动构造函数生成的
 		if( nullptr != m_ptr )
 		{ 
@@ -77,7 +78,9 @@ public:
 
 A GetA()
 {
-    return A();
+	auto a = A();
+    //return A();
+	return a;
 }
 
 A&& GetALValue()
