@@ -89,11 +89,44 @@ public:
         NUL, NUMBER, BOOL, STRING, ARRAY, OBJECT
     };
 
-    // Array and object typedefs
+    // Array and object typedefs 复合结构，其它的属于基础数据类型
+    // 从这个定义来看，json结构可以是任意结构，而array就是以vector的json，object就是map的json
     typedef std::vector<Json> array;
     typedef std::map<std::string, Json> object;
 
-    // Constructors for the various types of JSON value.
+  /*   key-value形式
+    {}包含的是json对象，[]包含的是数组
+    一个json string要么是以内容开头，要么是以[ , 要么是以 {
+    举例来说
+    1、"hello" , 1, 等都是单独可用的对象 一个Json对象足以描述
+    2、{
+        "hello":1
+    } 
+    这整体就是一个json object，虽然只有一个key
+    而后面的1，就是一个json number可以描述的
+    同理，还有数组的形式
+    [
+        "1", "2", "3" 
+    ] 这是个数组对象
+    3、{
+        "taskList":[
+            "123", "456"， {}
+        ]
+    }这是个object
+    [ "11", 1, {
+	    "hello":1,
+	    "key":2
+        }
+    ]
+     这是个array，虽然每个元素可能不一样，但这只会给解析带来一定的困难。
+     这整体就是一个json object，虽然只有一个key
+     然后这个key对应的是一个数组对象，不需要key，那么vector就可以描述
+     4、整体来看，key都是通过map也就是object表述出来的
+     表现为嵌套关系（知道其逻辑关系，才知道代码怎么写：如何抽象，如何定义接口，如何描述数据和行为）
+     数组里面又可以嵌套object，。
+    */
+
+    // Constructors for the various types of JSON value. 都是json
     Json() noexcept;                // NUL
     Json(std::nullptr_t) noexcept;  // NUL
     Json(double value);             // NUMBER
@@ -113,6 +146,7 @@ public:
     Json(const T & t) : Json(t.to_json()) {}
 
     // Implicit constructor: map-like objects (std::map, std::unordered_map, etc)
+    // 用 map 构造
     template <class M, typename std::enable_if<
         std::is_constructible<std::string, decltype(std::declval<M>().begin()->first)>::value
         && std::is_constructible<Json, decltype(std::declval<M>().begin()->second)>::value,
@@ -120,6 +154,7 @@ public:
     Json(const M & m) : Json(object(m.begin(), m.end())) {}
 
     // Implicit constructor: vector-like objects (std::list, std::vector, std::set, etc)
+    // 用 array 构造
     template <class V, typename std::enable_if<
         std::is_constructible<Json, decltype(*std::declval<V>().begin())>::value,
             int>::type = 0>

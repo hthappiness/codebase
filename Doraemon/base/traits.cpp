@@ -28,24 +28,61 @@ class is_one_of<Member> {
 using namespace std;
 
 class A
-{
-
+{ 
+public:
+  A()
+  {
+    std::cout << "A is constructed." << std::endl;
+  }
+  A(int a)
+  {
+    (void)a;
+    std::cout << "A is constructed" << std::endl;
+  }
 };
 
 class B
-{
-
+{ 
+public:
+  B()
+  {
+    std::cout << "B is constructed." << std::endl;
+  }
 };
 
 class C{
-
+  public:
+  C()
+  {
+    std::cout << "C is constructed" << std::endl;
+  }
+  C(int a)
+  {
+    (void)a;
+    std::cout << "C is constructed" << std::endl;
+  }
 };
 
-
+//关注构造顺序
 class D : public A{
+ public:
+  D():A(1)
+  {
+    std::cout << "D is constructed" << std::endl;
+  }
 
+  B b;
+  C c;
 };
 
+/* 
+A is constructed
+B is constructed.
+C is constructed
+D is constructed 
+*/
+
+#if 0
 class CInterceptor
 {
 public:
@@ -56,6 +93,7 @@ public:
 private:
   std::vector<>;
 };
+#endif
 
 template<int N>
 class CallNoOp
@@ -67,7 +105,7 @@ public:
   }
 };
 
-class CCallopInterface
+/* class CCallopInterface
 {
 protected:
   void perform();   
@@ -80,7 +118,7 @@ public:
   {
     callopSet->fillop(this);
   }
-};
+}; */
 
 //偏特化Partial specialization
 template <class Op1 = CallNoOp<1>, class Op2 = CallNoOp<2>,
@@ -122,6 +160,11 @@ protected:
     void perform();
 };
 
+class Call
+{
+
+};
+
 template <class Op1, class Op2, class Op3, class Op4, class Op5, class Op6>
 class CallOpSet : public Op1,
                   public Op2,
@@ -156,6 +199,8 @@ int main()
 
     CallOpSet<CallOpMsgId<1>, CallOpMsgId<2>> testCallOp;
     testCallOp.test();
+
+    D d;
 }
 
 /*模板偏特化 
