@@ -39,6 +39,10 @@ public:
     (void)a;
     std::cout << "A is constructed" << std::endl;
   }
+  ~A()
+  {
+    std::cout << "A is destructed." << std::endl;
+  }
 };
 
 class B
@@ -47,6 +51,10 @@ public:
   B()
   {
     std::cout << "B is constructed." << std::endl;
+  }
+  ~B()
+  {
+    std::cout << "B is destructed." << std::endl;
   }
 };
 
@@ -61,6 +69,10 @@ class C{
     (void)a;
     std::cout << "C is constructed" << std::endl;
   }
+   ~C()
+  {
+    std::cout << "C is destructed." << std::endl;
+  }
 };
 
 //关注构造顺序
@@ -69,6 +81,10 @@ class D : public A{
   D():A(1)
   {
     std::cout << "D is constructed" << std::endl;
+  }
+  ~D()
+  {
+    std::cout << "D is destructed." << std::endl;
   }
 
   B b;
@@ -200,7 +216,10 @@ int main()
     CallOpSet<CallOpMsgId<1>, CallOpMsgId<2>> testCallOp;
     testCallOp.test();
 
-    D d;
+    //D d;
+
+    A* a = new D();
+    delete a;
 }
 
 /*模板偏特化 

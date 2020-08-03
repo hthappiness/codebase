@@ -1,53 +1,102 @@
 # codebase
-1. base code project
-
-2.
+base code project
 
 # description
 
-1. about namespace 
+## namespace 
 
-2. about include structure
+## include structure
 
-3. about extension and stablity
+## extension and stablity
 
-4. about 
+## c++ basic grammar 
 
+## c++ standard library
+
+## c++ object model
+
+# 3rdParty
+
+python
+
+api table
+
+|      |      |      |
+| ---- | ---- | ---- |
+|      |      |      |
+|      |      |      |
+|      |      |      |
+
+## json11
 
 # codebase library
-1. Doraemon's pocket #多来Am梦的口袋
 
-2. base
+## Doraemon's pocket 
 
-3. file
+## base
 
-4. media
-	bmp read and write
-	encode and decode
-	new bmp, like skia
-	
-5. network
+## file
 
-6. storage
+## media
 
-7. distributed system
-	service founding
-	mutex
+### pic
 
-8. log
-	online log analysis
-	
-9. data mining
-	data description
-	data processing
-	data storage
-	
-10. design pattern
+bmp read and write
+encode and decode
+new bmp, like skia
 
-11. NLP
-	
-12. search engine
-	elasticsearch
-	
-13. linux kernel
-	linux driver
+### video
+
+## network
+
+### firewall
+
+### virtual network
+
+## storage
+
+### sql
+
+### db
+
+### nosql db
+
+## distributed system
+
+transaction
+
+service register and founding
+
+distributed computation
+
+mutex
+
+## log
+
+online log analysis and alert
+
+## data mining
+
+data description
+data processing
+data storage
+
+## design pattern
+
+component and binder.
+
+The design pattern is just like binder. The same is no invasive middleware .
+
+### singleton
+
+### command
+
+## NLP
+
+## search engine
+
+elasticsearch
+
+## linux kernel
+
+linux driver

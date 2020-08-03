@@ -1,1 +1,0 @@
-安装解析平台，请运行vias_install.py

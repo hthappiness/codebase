@@ -1,7 +1,0 @@
-{
-  "CONFIG_CLUSTERIP" : "10.254.92.105",
-  "CONFIG_POSTGRES_USER":"pgsql",
-  "CONFIG_POSTGRES_PASSWORD":"pgsql",
-  "CONFIG_POSTGRES_DB":"pgsql_db",
-  "AIX_POSTGRES_DB":"vias"
-}
