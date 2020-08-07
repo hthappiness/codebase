@@ -23,81 +23,6 @@ class is_one_of<Member> {
   static constexpr const bool value = false;
 };
 
-#include <iostream>
-
-using namespace std;
-
-class A
-{ 
-public:
-  A()
-  {
-    std::cout << "A is constructed." << std::endl;
-  }
-  A(int a)
-  {
-    (void)a;
-    std::cout << "A is constructed" << std::endl;
-  }
-  ~A()
-  {
-    std::cout << "A is destructed." << std::endl;
-  }
-};
-
-class B
-{ 
-public:
-  B()
-  {
-    std::cout << "B is constructed." << std::endl;
-  }
-  ~B()
-  {
-    std::cout << "B is destructed." << std::endl;
-  }
-};
-
-class C{
-  public:
-  C()
-  {
-    std::cout << "C is constructed" << std::endl;
-  }
-  C(int a)
-  {
-    (void)a;
-    std::cout << "C is constructed" << std::endl;
-  }
-   ~C()
-  {
-    std::cout << "C is destructed." << std::endl;
-  }
-};
-
-//关注构造顺序
-class D : public A{
- public:
-  D():A(1)
-  {
-    std::cout << "D is constructed" << std::endl;
-  }
-  ~D()
-  {
-    std::cout << "D is destructed." << std::endl;
-  }
-
-  B b;
-  C c;
-};
-
-/* 
-A is constructed
-B is constructed.
-C is constructed
-D is constructed 
-*/
-
 #if 0
 class CInterceptor
 {
@@ -216,10 +141,6 @@ int main()
     CallOpSet<CallOpMsgId<1>, CallOpMsgId<2>> testCallOp;
     testCallOp.test();
 
-    //D d;
-
-    A* a = new D();
-    delete a;
 }
 
 /*模板偏特化 

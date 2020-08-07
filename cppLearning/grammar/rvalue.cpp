@@ -124,6 +124,20 @@ void funcTest(std::unique_ptr<A>& uniA)
 	uniA->m_test = 10;
 }
 
+#if 1
+void fRValue(A& tmpA)
+{
+	cout << "fRValue 1. Temp is :" << tmpA.m_ptr  << std::endl;
+	tmpA.m_test = 11;
+	
+	//A test = tmpA;  //区分构造行为和赋值行为
+	/*这里呢?这里，tmpA就是一个左值，触发拷贝构造函数*/
+	
+	A test = std::move(tmpA);  
+	//触发移动构造函数；在这个语境下，tmpA是右值引用，则可以触发移动构造函数，这是其它形式无法完成的
+}
+#else
+
 void fRValue(A&& tmpA)
 {
 	cout << "fRValue 0. Temp is :" << tmpA.m_ptr  << std::endl;
@@ -135,7 +149,7 @@ void fRValue(A&& tmpA)
 	A test = std::move(tmpA);  
 	//触发移动构造函数；在这个语境下，tmpA是右值引用，则可以触发移动构造函数，这是其它形式无法完成的
 }
-
+#endif
 void test()
 {
 	//test rvalue
@@ -184,8 +198,11 @@ int main(){
 	//f(std::forward<A>(p));// ok
 	//f(A());
 	std::cout << "---------------------5--------------------------" << std::endl;
-	fRValue(A()); //临时对象可绑定到右值引用上，而不能绑定到左值引用上，可以绑定到const 左值引用上，c++这样的设计是为了什么？
+	//fRValue(A()); //临时对象可绑定到右值引用上，而不能绑定到左值引用上，可以绑定到const 左值引用上，c++这样的设计是为了什么？
 	//fRValue(std::move(p));
+	A tempA;
+	fRValue(tempA);
+	std::cout << "---------1. This is :" << tempA.m_ptr << std::endl;
 	
 	//std::vector<A> vs;
 	//vs.push_back(std::move(p));
