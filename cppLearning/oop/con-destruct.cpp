@@ -5,7 +5,7 @@ using namespace std;
 /* 
 1. 关注构造和析构顺序
 2. 关注virtual 虚构函数
- */
+*/
 
 class A
 { 
@@ -14,9 +14,9 @@ public:
   {
     std::cout << "A is constructed." << std::endl;
   }
-  A(int a)
+  A(int c)
   {
-    (void)a;
+    (void)c;
     std::cout << "A is constructed" << std::endl;
   }
   //如果析构函数不置为virtual,那么delete 子类对象的父类指针，会出现调用不到子类的析构函数
@@ -24,6 +24,7 @@ public:
   {
     std::cout << "A is destructed." << std::endl;
   }
+  int a{1};
 };
 
 class B
@@ -45,9 +46,9 @@ class C{
   {
     std::cout << "C is constructed" << std::endl;
   }
-  C(int a)
+  C(int d)
   {
-    (void)a;
+    (void)declval;
     std::cout << "C is constructed" << std::endl;
   }
    ~C()
@@ -68,6 +69,7 @@ class D : public A{
   {
     std::cout << "D is destructed." << std::endl;
   }
+  int a{2};
 
   B b;
   C c;

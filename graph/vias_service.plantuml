@@ -1,0 +1,68 @@
+@startuml vias_service
+
+skinparam backgroundcolor AntiqueWhite/Gold
+
+CViasModule o-- CViasService : aggregation
+CViasModule o-- CHttpServer : aggregation
+
+CViasService <|-- CVideoService : public
+CVideoService <|-- CViasOdService : public
+CVideoService <|-- CViasClService : public
+CVideoService <|-- CViasItsService : public
+
+together {
+    class CViasOdService
+    class CViasClService
+    class CViasItsService
+}
+
+class CViasService{
+    
+    -CTaskManager
+
+    + virtual LONG parseHttpRequest(const AIX_HTTP_REQUEST*, CHAR**, ULONG* )
+    + virtual LONG createTask(const AIX_HTTP_REQUEST*, CHAR**, ULONG* )
+    + virtual LONG updateTask(const AIX_HTTP_REQUEST*, CHAR**, ULONG* )
+    + virtual LONG deleteTask(const AIX_HTTP_REQUEST*, CHAR**, ULONG* )
+    + virtual LONG featureExtract(const AIX_HTTP_REQUEST*, CHAR**, ULONG* )
+}
+note top of CViasService : In vias, every service\nextends this one.
+class CViasService << (I,orchid) >>
+
+class CTaskManager{
+    + LONG init()
+    + VOID updateResource(VIAS_OD_VIDEO_TASK_PARAM_S*)
+    + {static} LONG initTaskResource(VIAS_OD_VIDEO_TASK_PARAM_S*, Task_Resource_Info_S)
+    + LONG addTask(std::shared_ptr<CViasPipeline>)
+    + LONG stopTask(CHAR*)
+}
+
+CViasService <|-- CPictureService
+CPictureService <|-- CViasPictureService
+
+CViasService *-- CViasFeature
+CViasFeature <|-- CViasOdFeature
+
+CViasService o-- CTaskManager
+CTaskManager o-- CKeepAliveCtx
+
+class CKeepAliveCtx{
+    + LONG init(errorCallback)
+    + LONG exit()
+    + VOID notifyAlive()
+}
+
+class CEnv << (S,#FF7700) Singleton >> {
+    + LONG init()
+    + LONG initEnv()
+}
+
+class CHttpServer{
+    + VIAS_REQ_TYPE_S parseRouter(const AIX_HTTP_REQUEST_S*)
+    + LONG init()
+    + LONG run()
+    + LONG shutdown()
+    + {static} LONG sendHttpMsg(const char*, char*)
+}
+
+@enduml

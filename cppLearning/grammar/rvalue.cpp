@@ -202,7 +202,7 @@ int main(){
 	//fRValue(std::move(p));
 	A tempA;
 	fRValue(tempA);
-	std::cout << "---------1. This is :" << tempA.m_ptr << std::endl;
+	std::cout << "1. This is :" << tempA.m_ptr << std::endl;
 	
 	//std::vector<A> vs;
 	//vs.push_back(std::move(p));
