@@ -23,7 +23,7 @@ typedef struct tagDiskIndex
 typedef struct tagDiskItem
 {
     DISK_INDEX_S stIndex;
-}
+}DISK_ITEM_S;
 
 // B+树
 
