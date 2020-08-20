@@ -37,3 +37,6 @@ int main()
   while (1) std::this_thread::sleep_for(std::chrono::seconds(1));;
   return 0;
 }
+
+//关于临时对象的构造
+// func(A()); 这是构造的一种方式
