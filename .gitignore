@@ -2,7 +2,7 @@
 *
 
 #增加指定目录和下面所有目录
-!/ke01_SeqList/
+!cppLearning/*.md
 !/ke01_SeqList/**/
 !/ke02_AlterList/
 !/ke02_AlterList/**/
