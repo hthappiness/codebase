@@ -9,6 +9,24 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+//磁盘索引index数据结构，索引某一条记录
+
+// 位置:disk pointer
+// 
+
+typedef struct tagDiskIndex
+{
+    int iBlockId;
+    int iOffset;
+}DISK_INDEX_S;
+
+typedef struct tagDiskItem
+{
+    DISK_INDEX_S stIndex;
+}
+
+// B+树
+
 typedef struct tagBlockHdr
 {
     int iMagic;
