@@ -1,0 +1,74 @@
+//https://www.cnblogs.com/shuqin/p/11897207.html
+
+digraph rankdot {
+	compound=true
+	margin="0,0"
+	ranksep = .75
+	nodesep = 1
+	pad = .5
+	rankdir = LR
+
+	node [shape=record, charset = "UTF-8" fontname="Microsoft YaHei", fontsize=14]
+	edge [style = dashed, charset = "UTF-8" fontname="Microsoft YaHei", fontsize=11]
+
+	epoll [shape = plaintext, label = "epoll 相关结构及部分关系"]
+
+	eventpoll [
+		color = cornflowerblue,
+		label = "<eventpoll> struct \n eventpoll |
+			<lock> spinlock_t lock; |
+			<mutex> struct mutex mtx; |
+			<wq> wait_queue_head_t wq; |
+			<poll_wait> wait_queue_head_t poll_wait; |
+			<rdllist> struct list_head rdllist; |
+			<ovflist> struct epitem *ovflist; |
+			<rbr> struct rb_root_cached rbr; |
+			<ws> struct wakeup_source *ws; |
+			<user> struct user_struct *user; |
+			<file> struct file *file; |
+			<visited> int visited; |
+			<visited_list_link> struct list_head visited_list_link;"
+	]
+
+	epitem [
+		color = sienna,
+		label = "<epitem> struct \n epitem  |
+			<rb>struct rb_node rbn;\nstruct rcu_head rcu; |
+			<rdllink> struct list_head rdllink; |
+			<next> struct epitem *next; |
+			<ffd> struct epoll_filefd ffd; |
+			<nwait> int nwait; |
+			<pwqlist> struct list_head pwqlist; |
+			<ep> struct eventpoll *ep; |
+			<fllink> struct list_head fllink; |
+			<ws> struct wakeup_source __rcu *ws; |
+			<event> struct epoll_event event;"
+	]
+
+	epitem2 [
+		color = sienna,
+		label = "<epitem> struct \n epitem |
+			<rb>struct rb_node rbn;\nstruct rcu_head rcu; |
+			<rdllink> struct list_head rdllink; |
+			<next> struct epitem *next; |
+			<ep> struct eventpoll *ep; |
+			 ··· |
+			 ··· "
+	]
+
+	eppoll_entry [
+		color = darkviolet,
+		label = "<entry> struct \n eppoll_entry |
+			<llink> struct list_head llink; |
+			<base> struct epitem *base; |
+			<wait> wait_queue_entry_t wait; |
+			<whead> wait_queue_head_t *whead;"
+	]
+
+	epitem:ep -> eventpoll:se [color = sienna]
+	epitem2:ep -> eventpoll:se [color = sienna]
+	eventpoll:ovflist -> epitem:next -> epitem2:next [color = cornflowerblue]
+	eventpoll:rdllist -> epitem:rdllink -> epitem2:rdllink [dir = both]
+	eppoll_entry:llink -> epitem:pwqlist [color = darkviolet]
+	eppoll_entry:base -> epitem:nw  [color = darkviolet]
+}
