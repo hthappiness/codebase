@@ -17,6 +17,7 @@
 !.gitignore
 !*.drawio
 !*.plantuml
+!*.dot
 !*.txt
 
 #当前目录下需要提交的文件                                                                                                                                                  

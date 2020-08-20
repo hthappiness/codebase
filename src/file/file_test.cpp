@@ -339,53 +339,7 @@ int main()
     db.insert(gby_name, gby_words);
     std::cout << "insert cwc" << std::endl;
     db.insert(cwc_name, cwc_words);
-#if 0
-    std::cout << "insert lixi" << std::endl;
-    db.insert(lixi_name, lixi_words);
-    std::cout << "insert guboyuan" << std::endl;
-    db.insert(gby_name, gby_words);
-    std::cout << "insert cwc" << std::endl;
-    db.insert(cwc_name, cwc_words);
-      std::cout << "insert lixi" << std::endl;
-    db.insert(lixi_name, lixi_words);
-    std::cout << "insert guboyuan" << std::endl;
-    db.insert(gby_name, gby_words);
-    std::cout << "insert cwc" << std::endl;
-    db.insert(cwc_name, cwc_words);
-    std::cout << "------------------------insert 12:----------------" << std::endl;
-      std::cout << "insert lixi" << std::endl;
-    db.insert(lixi_name, lixi_words);
-    std::cout << "insert guboyuan" << std::endl;
-    db.insert(gby_name, gby_words);
-    std::cout << "insert cwc" << std::endl;
-    db.insert(cwc_name, cwc_words);
-      std::cout << "insert lixi" << std::endl;
-    db.insert(lixi_name, lixi_words);
-    std::cout << "insert guboyuan" << std::endl;
-    db.insert(gby_name, gby_words);
-    std::cout << "insert cwc" << std::endl;
-    db.insert(cwc_name, cwc_words);
-      std::cout << "insert lixi" << std::endl;
-    db.insert(lixi_name, lixi_words);
-    std::cout << "insert guboyuan" << std::endl;
-    db.insert(gby_name, gby_words);
-    std::cout << "insert cwc" << std::endl;
-    db.insert(cwc_name, cwc_words);
-    std::cout << "------------------------insert 2:----------------" << std::endl;
-   std::cout << "insert lixi" << std::endl;
-    db.insert(lixi_name, lixi_words);
-    std::cout << "insert guboyuan" << std::endl;
-    db.insert(gby_name, gby_words);
-    std::cout << "insert cwc" << std::endl;
-    db.insert(cwc_name, cwc_words);
-        std::cout << "------------------------insert 3:----------------" << std::endl;
-    std::cout << "insert lixi" << std::endl;
-    db.insert(lixi_name, lixi_words);
-    std::cout << "insert guboyuan" << std::endl;
-    db.insert(gby_name, gby_words);
-    std::cout << "insert cwc" << std::endl;
-    db.insert(cwc_name, cwc_words);
-#endif
+
     std::cout << "------------------------show:----------------" << std::endl;
 
     db.show();
