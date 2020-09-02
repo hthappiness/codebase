@@ -341,7 +341,6 @@ int main()
     db.insert(cwc_name, cwc_words);
 
     std::cout << "------------------------show:----------------" << std::endl;
-
     db.show();
 
     std::cout << "------------------------update cwc:----------------" << std::endl;
