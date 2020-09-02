@@ -32,7 +32,7 @@ namespace dataFlow
 	//其实该类设计，可不用模板类，直接使用boost::any即可，毕竟该类模板只实例化了一个类别
 
 	template <typename impl, typename Input>
-	class CDataConsumer :public CAbstractAnyDataConsumer
+	class CDataConsumer : public CAbstractAnyDataConsumer
 	{
 	public:
 		//该函数由子类实现，但是produce直接调用此函数consume1

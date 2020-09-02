@@ -20,8 +20,8 @@ namespace dataFlow {
 			}
 		public:
 
-			virtual const std::type_info & type() const = 0;
-			virtual placeholder * clone() const = 0;
+			virtual const std::type_info& type() const = 0;
+			virtual placeholder* clone() const = 0;
 		};
 
 		//真正保存和获取数据的类。
@@ -29,18 +29,18 @@ namespace dataFlow {
 		class holder : public placeholder
 		{
 		public:
-			holder(const ValueType & value) : held(value)
+			holder(const ValueType& value) : held(value)
 			{
 			}
 
 		public:
 
-			virtual const std::type_info & type() const
+			virtual const std::type_info& type() const
 			{
 				return typeid(ValueType);
 			}
 
-			virtual placeholder * clone() const
+			virtual placeholder* clone() const
 			{
 				return new holder(held);//使用了原型模式
 			}
@@ -59,12 +59,12 @@ namespace dataFlow {
 
 		//模板构造函数，参数可以是任意类型，真正的数据保存在content中
 		template<typename ValueType>
-		impl_any(const ValueType & value) : content(new holder<ValueType>(value))
+		impl_any(const ValueType& value) : content(new holder<ValueType>(value))
 		{
 		}
 
 		//拷贝构造函数
-		impl_any(const impl_any & other)
+		impl_any(const impl_any& other)
 			: content(other.content ? other.content->clone() : 0)
 		{
 		}
@@ -85,7 +85,7 @@ namespace dataFlow {
 	public:
 
 		//查询真实数据的类型。
-		const std::type_info & type() const
+		const std::type_info& type() const
 		{
 			return content ? content->type() : typeid(void);
 		}
@@ -97,7 +97,7 @@ namespace dataFlow {
 	ValueType any_cast(const impl_any& operand)
 	{
 		assert(operand.type() == typeid(ValueType));
-		return static_cast<any::holder<ValueType> *>(operand.content)->held;
+		return static_cast<any::holder<ValueType>*>(operand.content)->held;
 	}
 
 }

@@ -25,8 +25,29 @@ map<string, complex<double>> testMap;
 
 //testMap.emplace(piecewise_construct,forward_as_tuple("hello"),forward_as_tuple(1, 2));
 
-int a[4] = {1, 2, 3, 4};
-//int b[4];
-//std::array<int , 4> a = {1, 2, 3, 4};
-std::vector<int> b(4);
-std::copy(a, a+4, b.begin());
+typedef struct tagTestCopy
+{
+    int a;
+    int b;
+    int c;
+    int d;
+}TEST_COPY_S;
+
+int main()
+{
+    int a[4] = {1, 2, 3, 4};
+    //int b[4];
+    //std::array<int , 4> a = {1, 2, 3, 4};
+    std::vector<int> b(4);
+    std::copy(a, a+4, b.begin());
+
+    for(int& tmp : b)
+    {
+        std::cout << tmp << std::endl;
+    }
+
+    TEST_COPY_S test = {2, 5, 9, 10};
+    TEST_COPY_S dest ;
+    std::copy(&test, &test + 1, &dest);
+    std::cout << dest.d <<std::endl; // 10
+}
