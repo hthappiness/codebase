@@ -1,26 +1,32 @@
+
+#忽略工程文件
+.vs/
+.vscode/
+
+#git ignore file template,which demonstrate the base grammar
 #忽略所有文件和目录
-*
+#*
 
 #增加指定目录和下面所有目录
-!cppLearning/*.md
-!/ke01_SeqList/**/
-!/ke02_AlterList/
-!/ke02_AlterList/**/
+#!cppLearning/*.md
+#!/ke01_SeqList/**/
+#!/ke02_AlterList/
+#!/ke02_AlterList/**/
 
 #增加指定扩展名文件和MAKEFILE文件
-!*.cpp
-!*.c
-!*.h
-!*.hpp
-!makefile
-!CMakeLists.txt
-!.gitignore
-!*.drawio
-!*.plantuml
-!*.dot
-!*.txt
+#!*.cpp
+#!*.c
+#!*.h
+#!*.hpp
+#!makefile
+#!CMakeLists.txt
+#!.gitignore
+#!*.drawio
+#!*.plantuml
+#!*.dot
+#!*.txt
 
 #当前目录下需要提交的文件                                                                                                                                                  
-!README.md
-!*.md
-!*.doc
+#!README.md
+#!*.md
+#!*.doc
