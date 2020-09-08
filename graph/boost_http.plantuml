@@ -1,0 +1,97 @@
+//https://plantuml.com/zh/class-diagram
+
+@startuml boost_httpServer
+
+class IResource{
+
+    + void httpHandlerFunc()
+}
+
+class httpConfig{
+    # m_address : string
+    # m_port : int
+    # m_poolSize : int
+}
+
+class httpServer{
+    + void run()
+    + void asyncRun()
+
+    + void addResource()
+    + void addHttpRequestHandler(string, httpMethod, httpRequestHandler)
+    
+    + void httpRequestTask(const std::shared_ptr<httpSession>& httpSession)
+
+    - void handleHttpRequest()
+    
+    #m_ioContext : boost::asio::io_context
+    #m_listener : httpListener
+    #m_thread : boost::thread
+    #m_pool : boost::asio::thread_pool
+    #m_resourceManager : ResourceManager
+}
+
+httpServer o-- httpConfig : use
+
+class httpListener{
+    
+    + int run(boost::asio::ip::tcp::endpoint)
+    + void stop()
+
+    # void accept()
+    # void onAccept()
+    
+    # m_acceptor : boost::asio::ip::tcp::acceptor
+    # m_socket : boost::asio::ip::tcp::socket
+    # m_sessions : std::unordered_set<httpSession*>
+}
+
+class httpSession{
+
+    //common method, wrap the socket operation
+
+    +void readRequest() //注册read的异步操作
+    #void onRequest(boost::system::error_code, std::size_t size)
+
+    +void sendResponse()
+
+    #m_socket : boost::asio::ip::tcp::socket
+    #m_strand : boost::asio::strand<boost::asio::io_context::executor_type>
+    #m_timer : boost::asio::steady_timer
+    #m_flatBuffer : boost::beast::flat_buffer
+    #m_request : boost::beast::http::request<boost::beast::http::string_body>
+}
+
+httpListener - httpSession : create >
+
+class httpRequest{
+    // boost::beast::http::request<boost::beast::http::string_body>
+
+    // inherit and override it, add some new function
+}
+
+class httpResponse{
+    // boost::beast::http::response<boost::beast::http::string_body>
+
+    // pack the response content
+}
+
+httpSession o-- httpRequest : own
+
+httpServer o-- httpListener : own
+
+httpListener o-- httpSession : ref
+
+class ResourceManager{
+    + registerItem(string url, const std::shared_ptr<ResourceItem>)
+    
+    # int findResource() //could use regex
+
+    - m_resouceMap : std::map<boost::regrex, ResouceItem>
+}
+
+class ResourceItem{
+    + ResourceItem(const ResourceManager& manager) // manager.register(label, shared_from_this())
+}
+
+@enduml
