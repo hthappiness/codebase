@@ -79,6 +79,7 @@
         "xtree": "cpp",
         "xutility": "cpp",
         "forward_list": "cpp",
-        "complex": "cpp"
+        "complex": "cpp",
+        "*.ipp": "cpp"
     }
 }

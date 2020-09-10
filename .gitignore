@@ -2,6 +2,7 @@
 #忽略工程文件
 .vs/
 .vscode/
+boost/
 
 #git ignore file template,which demonstrate the base grammar
 #忽略所有文件和目录
