@@ -1,3 +1,15 @@
+/****************************************************************************
+copyright (c) 2020 
+-----------------------------------------------------------------------------
+           http_session.h
+
+Module Name: 
+Date Created: 2020/09/11
+Author: hthappiness
+Description: xxxxxxxxxxxxxxxxxxxxx
+****************************************************************************/
+
+#pragma once
 
 #include "boost/beast/core.hpp"
 #include "boost/beast/http.hpp"

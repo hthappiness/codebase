@@ -1,3 +1,15 @@
+/****************************************************************************
+copyright (c) 2020 
+-----------------------------------------------------------------------------
+           http_response.h
+
+Module Name: 
+Date Created: 2020/09/11
+Author: hthappiness
+Description: xxxxxxxxxxxxxxxxxxxxx
+****************************************************************************/
+
+#pragma once
 
 #include "boost/beast/http.hpp"
 
