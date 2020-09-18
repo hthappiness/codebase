@@ -13,7 +13,7 @@ template<typename Key>
 class Heap
 {
 public:
-    using index_pos = int;
+    using index_pos = int; //alias of the type
     int getHeapSize()
     {
         return m_heapSize;

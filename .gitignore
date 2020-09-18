@@ -3,6 +3,7 @@
 .vs/
 .vscode/
 boost/
+build/
 
 #git ignore file template,which demonstrate the base grammar
 #忽略所有文件和目录

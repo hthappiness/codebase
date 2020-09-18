@@ -1,6 +1,8 @@
 
 #include "eventfd.h"
 
+/* 熟悉底层接口的用法，比如eventFd机制，基于此封装新的策略，描述对象的关系 */
+
 int CEventFdImpl::init() 
 {
   m_eventFdSet->read_fd = eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);

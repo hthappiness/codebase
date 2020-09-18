@@ -61,4 +61,28 @@ A<int, double> a; // A<T1, T2>
 A<double, float> b; // A<T, T>
 A<double, int> c; // A<T, int>
 A<int*, double*> d; // A<T1*, T2*>
+
+/*-----------------------------------------------------------*/
+// 基本辅助模板
+template<int SZ, bool = isPrime(SZ)>
+struct Helper;
+
+// 如果SZ不是质数的实现
+template<int SZ>
+struct Helper<SZ, false> {
+	...
+};
+
+// 如果SZ是质数的实现
+template<int SZ>
+struct Helper<SZ, true> {
+	...
+};
+
+template<typename T, std::size_t SZ>
+long f(const std::array<T, SZ>& coll)
+{
+	Helper<SZ> h; // 实现依赖于数组大小是否为质数
+	...
+}
 #endif

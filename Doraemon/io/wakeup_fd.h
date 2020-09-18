@@ -2,6 +2,11 @@
 
 #include <memory>
 
+/*
+ *结合epoll使用，wakeup的时候就向readfd写入，以通知write fd，notify之后，就可以做相应的操作
+ *定义用法，也就是接口，再谈具体实现
+ */
+
 class CWakeupFd
 {
 public:
@@ -10,6 +15,7 @@ public:
     ;
 };
 
+/* 可以由eventFd实现，或者其他机制 */
 class CWakeupInterface
 {
 public:

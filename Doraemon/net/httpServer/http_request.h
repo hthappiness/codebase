@@ -36,6 +36,8 @@ namespace Doraemon
             HttpRequest(const HttpRequest& request);
 
             HttpRequest(boost::beast::string_view& url, unsigned int version);
+        public:
+        
         };
     }
 } // namespace Doraemon

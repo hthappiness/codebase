@@ -14,4 +14,4 @@ public:
 
 private:
     CWakeupFd m_eventFdSet;
-} ;
+};

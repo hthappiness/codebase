@@ -22,6 +22,8 @@ public:
 };
 #endif
 
+//stack用vector实现，或者用deque实现...
+
 template<typename T>
 class Stack {
 public:

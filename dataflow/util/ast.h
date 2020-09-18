@@ -12,7 +12,7 @@ enum ForSyntaxType
 {
     ITEM_IF,
     ITEM_FOR,
-    ITEM_OPEN_BRACH,  //左括号
+    ITEM_OPEN_BRACE,  //左括号
     ITEM_CLOSE_BRACE, //右括号
     ITEM_EXP,
     ITEM_COMMA,      //逗号
