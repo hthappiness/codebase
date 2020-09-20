@@ -11,7 +11,7 @@ class CWorkNode
 {
     using pfEndHandler = std::function<void ()>;
 public:
-    CWorkNode(pfEndHandler = nullptr);
+    CWorkNode(pfEndHandler handler = nullptr);
 
     /* When finishing ， call finish interface*/
     virtual void process(Doraemon::base::UnifiedMap&) = 0;
@@ -62,7 +62,7 @@ private:
     std::shared_ptr<CWorkNode> m_startNode;
     bool m_closed;
 
-    /* statistic infomation about  */
+    /* statistic information about  */
     int m_iCnt;
 };
 
