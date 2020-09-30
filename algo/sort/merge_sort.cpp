@@ -37,7 +37,8 @@ void MergeSort(int sourceArr[], int tempArr[], int startIndex, int endIndex)
         Merge(sourceArr, tempArr, startIndex, midIndex, endIndex);
     }
 }
- 
+
+#if 0 
 int main(int argc, char * argv[])
 {
     int a[8] = {50, 10, 20, 30, 70, 40, 80, 60};
@@ -48,3 +49,4 @@ int main(int argc, char * argv[])
     printf("\n");
     return 0;
 }
+#endif

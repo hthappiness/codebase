@@ -1,4 +1,7 @@
 #include <iostream>
+#include <chrono>
+
+#include "sort_pub.h"
 
 void swapItem(int a[], int i, int j)
 {
@@ -54,9 +57,26 @@ int main()
     std::cout << "before sort:" << std::endl;
     prinfArray(a, sizeof(a)/sizeof(int));
     
+    auto beginTime = std::chrono::steady_clock::now();
+
     shellSort(a, sizeof(a)/sizeof(int));
+
+    auto costTime = std::chrono::duration_cast<std::chrono::milliseconds>
+		(std::chrono::steady_clock::now() - beginTime);
+
+	std::cout << " shellsort cost:"<< costTime.count() << "] ms" << std::endl;
 
     std::cout << "after sort:" << std::endl;
     prinfArray(a, sizeof(a)/sizeof(int));
 
+    //merget sort
+    int b[8];
+     auto beginTime2 = std::chrono::steady_clock::now();
+
+    MergeSort(a, b, 0, sizeof(a)/sizeof(int) - 1);
+
+    auto costTime2 = std::chrono::duration_cast<std::chrono::milliseconds>
+		(std::chrono::steady_clock::now() - beginTime);
+
+    std::cout << " MergeSort cost:"<< costTime.count() << "] ms" << std::endl;
 }

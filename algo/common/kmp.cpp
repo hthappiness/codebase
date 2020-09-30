@@ -48,9 +48,8 @@ public:
         }
 #endif
     }
-    
 
-    int search(std::string txt) {
+     int search(std::string txt) {
         int M = m_pat.length();
         int N = txt.length();
         // pat 的初始态为 0
@@ -64,9 +63,72 @@ public:
         // 没到达终止态，匹配失败
         return -1;
     }
+
+    /* ------------------------------------------这是原始的kmp算法------------------------------------------------------ */
+
+    int KMPOriginal(int start,char S[],char T[])
+    {
+        int i=start,j=0;
+        while(S[i]!='\0'&&T[j]!='\0')
+        {
+            if(j==-1||S[i]==T[j])
+            {
+                i++;         //继续对下一个字符比较 
+                j++;         //模式串向右滑动 
+            }
+            else j=next[j];
+        }
+        if(T[j]=='\0') return (i-j);    //匹配成功返回下标 
+        else return -1;                 //匹配失败返回-1 
+    }
+
+    //KMP的next数组告诉我们：当模式串中的某个字符跟主串中的某个字符失配时，模式串下一步应该跳到哪个位置。
+    //如模式串中在j 处的字符跟主串在i 处的字符匹配失配时，下一步用next [j] 处的字符继续跟主串i 处的字符匹配，
+    //相当于模式串向右移动 j - next[j] 位。 意味着当不匹配的时候，主串的j下一次开始匹配模式串的哪一个字符
+    void GetNext(char T[])
+    {
+        /* j是主串的下标，k是模式串的下标 */
+        int j=0,k=-1; /* -1是哨兵 */
+        next[j]=k;
+        while(T[j]!='\0')
+        {
+            if(k==-1||T[j]==T[k])
+            {
+                j++;
+                k++;
+                next[j]=k; /* 记录后缀的匹配状态 */
+            }
+            else 
+            {
+                k=next[k];/* 意味着前k个字符是匹配的，累进的一个状态 */
+            }
+
+            /* 看next的赋值，很显然，每次匹配，next才会增加，否则就回溯，也就是寻找最长公共前后缀的过程 */
+        }
+    }
+
+    int GetNextII(int j,char T[])
+    {
+        if(j==0)return -1;
+        if(j>0)
+        {
+            int k=GetNextII(j-1,T);
+            while(k>=0)
+            {
+                if(T[j-1]==T[k])return k+1;
+                else k=GetNextII(k,T);
+            }
+            return 0;
+        }
+        return 0;
+    }
+
+
 private:
     int dp[100][256];
     std::string m_pat;
+
+      int next[100];
 };
 
 int main()

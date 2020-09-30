@@ -63,6 +63,7 @@ int main()
 	
 	for(decltype(cnt) i =1 ; i < cnt ; i++)
 	{
+        //别名构造函数
 		nodeArr[i] = shared_ptr<node>(nodeArr[0], &buffer[i]);
 	}
 	
