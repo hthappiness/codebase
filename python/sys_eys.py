@@ -2,6 +2,30 @@
 #!/usr/bin/env Python 
 import os, sys, time 
 
+def testPython():
+    #几大数据结构
+    a = []  #列表
+    b = {}  #字典
+    c = ('physics', 'chemistry', 1997, 2000)  #元组
+
+    #控制结构
+    fruits = ['banana', 'apple',  'mango']
+    for fruit in fruits:        # 第二个实例
+        print '当前水果 :', fruit
+
+    count = 0
+    while (count < 9):
+        print 'The count is:', count
+        count = count + 1
+ 
+    print "Good bye!"
+    #第三方库
+    ret = os.mkdir("testOs.txt")
+
+    #函数
+
+    #面向对象
+
 def test():
     while True: 
         time.sleep(4) 

@@ -41,10 +41,13 @@ int deserialize(std::string& str)
         return -1;
     }
 
-    auto ret = jsonRoot.has_shape(json11::Json::shape{
+    // using initialize_list, shape的定义是初始化列表，所以使用{},({})
+    //c++98编译失败
+    //map<int,std::string> _map{{1,"lxg"},{2,"the answer"},{3,"hello world."}};    ({ {}, {}, {}})
+    auto ret = jsonRoot.has_shape(json11::Json::shape({
         {"testObject", json11::Json::OBJECT},
         {"testArray", json11::Json::ARRAY}
-    }, err);
+    }), err);
     if( false == ret)
     {
         std::cout << "failed shape." << std::endl;
