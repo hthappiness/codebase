@@ -4,7 +4,6 @@
 
 namespace Doraemon
 {
-
     class ProfileScope
     {
     public:
@@ -17,7 +16,7 @@ namespace Doraemon
             auto costTime = std::chrono::duration_cast<std::chrono::milliseconds>
 		            (std::chrono::steady_clock::now() - m_beginTime);
 	
-	        std::cout << "[" <<file_ << ": "<< line_ << "]" << costTime.count() << "] ms" << std::endl;
+	         std::cout << "cost [" <<file_ << ": "<< line_ << "]" << ": [" << costTime.count() << "] ms" << std::endl;
          }
 
     private:
@@ -28,6 +27,6 @@ namespace Doraemon
     };
 
     //C++中，宏定义不受命名空间的约束
-    #define DORAEMON_TIMER_SCOPE(tmp, level) \
-        ProfileScope tmp(desc, level, __FILE__, __LINE__);
+    #define DORAEMON_TIMER_SCOPE(desc, level) \
+        Doraemon::ProfileScope tmp(desc, level, __FILE__, __LINE__);
 }

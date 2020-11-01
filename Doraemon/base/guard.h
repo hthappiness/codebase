@@ -30,7 +30,7 @@ namespace Doreamon{
 		private:
 			bool bFinish{false};
 			callable m_func;
-		}
+		};
 		
 		static void testGuard(int num)
 		{
