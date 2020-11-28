@@ -19,6 +19,25 @@
 namespace Doraemon
 {
 
+  namespace cppCoreGuideline
+  {
+    template <typename T>
+    class CSingleton
+    {
+    public:
+      static T &instance()
+      {
+        static T obj;
+        return obj;
+      }
+
+    private:
+     //noncopyable
+      CSingleton(const CSingleton &) {}
+      CSingleton& operator=(const CSingleton &) {}
+    }
+  } // namespace guide
+
 namespace detail
 {
 // This doesn't detect inherited member functions!
