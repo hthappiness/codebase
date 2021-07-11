@@ -65,7 +65,7 @@ digraph rankdot {
 			<whead> wait_queue_head_t *whead;"
 	]
 
-	epitem:ep -> eventpoll:se [color = sienna]
+	epitem:ep -> eventpoll:se [color = sienna, label="connection"]
 	epitem2:ep -> eventpoll:se [color = sienna]
 	eventpoll:ovflist -> epitem:next -> epitem2:next [color = cornflowerblue]
 	eventpoll:rdllist -> epitem:rdllink -> epitem2:rdllink [dir = both]

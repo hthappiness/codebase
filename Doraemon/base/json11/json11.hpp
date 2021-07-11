@@ -85,6 +85,7 @@ class JsonValue;
 class Json final {
 public:
     // Types
+    // json能描述什么，其描述能力
     enum Type {
         NUL, NUMBER, BOOL, STRING, ARRAY, OBJECT
     };
@@ -98,7 +99,7 @@ public:
     {}包含的是json对象，[]包含的是数组
     一个json string要么是以内容开头，要么是以[ , 要么是以 {
     举例来说
-    1、"hello" , 1, 等都是单独可用的对象 一个Json对象足以描述
+    1、"hello" , 1, 等都是单独可用的对象，基本数据形式，一个Json对象足以描述
     2、{
         "hello":1
     } 

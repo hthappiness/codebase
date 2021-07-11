@@ -3,17 +3,17 @@
 
 #include <stack>
 
-//������Ķ������˵������
-//1��ÿ������Ǻ�ɫ���ߺ�ɫ��
-//2�����ڵ��Ǻ�ɫ��
-//3��ÿ��Ҷ�ڵ㣨NIL���Ǻ�ɫ��
-//4�����һ���ڵ��Ǻ�ɫ�ģ������������ӽڵ㶼�Ǻ�ɫ��
-//5����ÿ���ڵ㣬�Ӹýڵ㵽�����к��Ҷ�ڵ�ļ�·���ϣ���������ͬ��Ŀ�ĺ�ɫ���
+//红黑树的定义或者说是性质
+//1、每个结点是红色或者黑色的
+//2、根节点是黑色的
+//3、每个叶节点（NIL）是黑色的
+//4、如果一个节点是红色的，则它的两个子节点都是黑色的
+//5、对每个节点，从该节点到其所有后代叶节点的简单路径上，均包含相同数目的黑色结点
 
-//��������
-//1����ʼ��
-//2������
-//3����������
+//迭代流程
+//1、初始化
+//2、保持
+//3、结束条件
 
 template<typename Key>
 class CRbTree
@@ -70,20 +70,20 @@ public:
 		}
 		z->m_parent = y;
 
-		/* ����ǿ��� */
+		/* 如果是空树 */
 		if (y == nullptr) {
 			m_root = z;
 		}
-		/* ���� */
+		/* 左孩子 */
 		else if (z->m_key < y->m_key) {
 			y->m_left = z;
 		}
-		/* �Һ��� */
+		/* 右孩子 */
 		else {
 			y->m_right = z;
 		}
 
-		/* �²���Ľڵ��Ǻ�ɫ */
+		/* 新插入的节点是红色 */
 		z->m_left  = nullptr;
 		z->m_right = nullptr;
 		z->m_color = COLOR_RED;
@@ -240,14 +240,14 @@ public:
 		nodeStack.push(m_root);
 		while (!nodeStack.empty()) {
 
-			//����������Ǵ���һ�����ϵ�����������̣����ԣ�����������Ϊ�յ�ʱ����ô��break��������������Ϊ������λ���ظ��������
+			//这个迭代就是处理一棵树上的中序遍历过程，所以，当右子树不为空的时候，那么就break，重新以右子树为遍历单位，重复这个过程
 
-			//�ù���һֱ�ҵ�û����ڵ�Ľڵ��ֹͣ
+			//该过程一直找到没有左节点的节点才停止
 			while (nodeStack.top()->m_left != nullptr) {
 				nodeStack.push(nodeStack.top()->m_left);
 			}
-			//��ʱ��S.top()��һ��û��left�Ľڵ㣬����������������ԣ����Խ���ֱ�������
-			//whileѭ����һֱ��ջ�������ֱ���������ҽڵ�Ľڵ㣬�����ܱ�֤ջ��Ԫ�ز����ظ�Ѱ������
+			//此时的S.top()是一个没有left的节点，按照中序遍历的特性，可以将其直接输出。
+			//while循环会一直将栈顶输出，直到遇到有右节点的节点，这样能保证栈中元素不会重复寻找左孩子
 			while (!nodeStack.empty()) {
 				CTreeNode* cur = nodeStack.top();
 				cout << cur->m_key << " ";
@@ -255,7 +255,7 @@ public:
 
 				if (cur > m_right != nullptr) {
 					nodeStack.push(cur->m_right);
-					/* ���������´���m_right���� */
+					/* 跳出，重新处理m_right子树 */
 					break;
 				}
 			}
@@ -295,20 +295,20 @@ public:
 		return tmp;
 	}
 
-	/* ��� */
+	/* 后继 */
 	CTreeNode* successor(CTreeNode* x) 
 	{
 		if (x->m_right != nullptr) 
 		{
 			return minimum(x->m_right);
 		}
-		/* ��������Ϊ�գ����򸸽ڵ��� */
+		/* 当右子树为空，则向父节点找 */
 		else 
 		{
 			CTreeNode* y = x->parent;
 			/*         
-			 *��������������е������⣻��ʼ+����+��ֹ
-			 *�����ڵ㲻Ϊ�ն���Ϊ�ҽڵ��ʱ����һֱ������ֱ�����������ǵ�Ϊ��������ʱ�򣬾��Ǻ�̣��ο����������˳��
+			 *这个迭代看起来有点难理解；开始+保持+终止
+			 *当父节点不为空而且为右节点的时候，则一直迭代；直观来看，就是当为左子树的时候，就是后继，参考中序遍历的顺序
 			 */
 			while (y != nullptr && x == y->m_right) {
 				x = y;
@@ -319,7 +319,7 @@ public:
 		}
 	}
 
-	/* ǰ�� */
+	/* 前驱 */
 	CTreeNode* predecessor(CTreeNode* x) 
 	{
 		if (x->m_left != nullptr)

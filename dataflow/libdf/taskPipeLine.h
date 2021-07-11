@@ -28,7 +28,7 @@ namespace dataFlow {
 			UnifiedMap initParam;
 		};
 
-		std::vector<std::shared_ptr<NodeInfo>> m_NodeVec;
+		std::vector<std::shared_ptr<CNodeInfo>> m_NodeVec;
 	};
 
 };

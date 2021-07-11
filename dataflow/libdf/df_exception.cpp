@@ -7,7 +7,7 @@ namespace dataFlow{
 CDFException::CDFException(long lErrCode, std::string what)
 {
     //out put the exception log information.
-    std::cout<<what;
+    std::cout << what;
     m_lErrCode = lErrCode;
 }
 

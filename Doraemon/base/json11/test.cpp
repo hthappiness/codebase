@@ -3,6 +3,8 @@
 #include <iostream>
 #include <fstream>
 
+#include <unordered_map>
+
 #include "json11.hpp"
 
 /* 自定义对象 */
@@ -31,7 +33,7 @@ private:
     int         id_;
 };
 
-int deserialize(std::string& str)
+int deserialize(const std::string& str)
 {
     std::string err;
     auto jsonRoot = json11::Json::parse(str, err);
@@ -115,7 +117,7 @@ int serialize(std::string& str)
     //一个单独的string
     CTestJson jsonClass("xixixi", 890);
     //auto obj3  = json11::Json(jsonClass);  // explicit, both ok
-    json11::Json obj3 = jsonClass;   // implicit
+    json11::Json obj3 = jsonClass;   // implicit,根据to_json构造
     auto test3 = obj3.dump();
 
     std::cout << "dump result 3:" << test3 << std::endl; // "hello world"
@@ -165,8 +167,35 @@ int readFile()
 
 }
 
+int test()
+{
+    json11::Json::object obj1 {
+        {"name", "hting"},
+        {"score", 99}
+    };
+
+    json11::Json::array arr{"1", 2, obj1};
+
+    for(const auto& item : arr)
+    {
+        std::cout << "result:" <<static_cast<int>(item.type()) << std::endl;
+    }
+
+    std::unordered_map<std::string, int> unMap = {
+        {"aaaa", 1},
+        {"bbbb", 2},
+        {"cccc", 3}
+    };
+
+    //explicit construct
+    json11::Json mapJson = unMap;
+    std::cout << "------end------: " << mapJson.dump() << std::endl;
+}
+
 int main()
 {
+    test();
+#if 1
     std::string str;
 
     serialize(str);
@@ -176,7 +205,7 @@ int main()
     persistize(str);
 
     readFile();
-
+#endif
     return 0;
 }
 

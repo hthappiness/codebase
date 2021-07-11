@@ -1,7 +1,7 @@
 //
-//¼Æ³Ì³µ¼Æ·Ñ£¬·ê4Ìø¹ı¼Æ·Ñ
+//è®¡ç¨‹è½¦è®¡è´¹ï¼Œé€¢4è·³è¿‡è®¡è´¹
 //
-//ÊäÈëÊÇ°æ±¾·ÑÓÃ£¬Êä³ö´ò±íÆ÷·ÑÓÃ
+//è¾“å…¥æ˜¯ç‰ˆæœ¬è´¹ç”¨ï¼Œè¾“å‡ºæ‰“è¡¨å™¨è´¹ç”¨
 
 #include <iostream>
 #include <math.h>
@@ -14,7 +14,7 @@ int test()
 	std::cout << "Please input the counter :";
 	std::cin >> cnt;
 
-	/* ¼ÆËã¸ÃÊıÓĞ¶àÉÙÎ» */
+	/* è®¡ç®—è¯¥æ•°æœ‰å¤šå°‘ä½ */
 	int num = (int)log10(cnt) + 1;
 	//std::cout << "total bit num = " << num << std::endl;
 	
@@ -78,7 +78,7 @@ int taxi(unsigned int n)
 	return m;
 }
 
-/* ÏÈÒªÅĞ¶ÏÈë²ÎµÄÓĞĞ§ĞÔ */
+/* å…ˆè¦åˆ¤æ–­å…¥å‚çš„æœ‰æ•ˆæ€§ */
 int taxiReverse(unsigned int n)
 {
 	if (n < 4)
@@ -89,7 +89,7 @@ int taxiReverse(unsigned int n)
 	unsigned int last = n - 1;
 	unsigned int cnt = 0;
 
-	/* ĞŞÕıÃ¿Ò»¸öÎ»Êı */
+	/* ä¿®æ­£æ¯ä¸€ä¸ªä½æ•° */
 	unsigned int tmp = last;
 	int bitNum = (int)log10(tmp) + 1;
 

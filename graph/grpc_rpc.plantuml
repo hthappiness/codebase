@@ -1,0 +1,86 @@
+@startuml grpc_rpc
+
+//grpc概念模型与rpc业务之间的对应关系
+//各个层次所描述的对象，包含的内容；这一切都在变量和函数中展现
+//描述抽象的东西，同时提供扩展功能的接口
+//server管理service，因为一个server可能包含多个service，
+//grpc_impl::server
+
+class Server{
+    + void stop()
+}
+
+class serverInterface{
+
+}
+
+class ServerContext{
+
+}
+
+//service 包含多个method,这里包含具体的回调函数
+class Service{
+    # methods_ : std::vector<std::unique_ptr<internal::RpcServiceMethod>>;
+}
+
+//service与method的关系R，
+
+//method handler
+class MethodHandler{
+    class HandlerParam{
+
+    }
+    + virtual void RunHandler(const HandlerParameter& param)
+}
+
+//通过这个模板类扩展，它继承于MethodHandler
+//template <class ServiceType, class RequestType, class ResponseType>
+class RpcMethodHandler{
+
+}
+
+//template <class ServiceType, class RequestType, class ResponseType>
+class ClientStreamingHandler{
+
+}
+
+//template <class ServiceType, class RequestType, class ResponseType>
+class ServerStreamingHandler{
+
+}
+
+//template <class Streamer, bool WriteNeeded>
+class TemplatedBidiStreamingHandler  {
+
+}
+
+MethodHandler <|-- RpcMethodHandler : public
+MethodHandler <|-- ClientStreamingHandler : public
+MethodHandler <|-- ServerStreamingHandler : public
+MethodHandler <|-- TemplatedBidiStreamingHandler : public
+
+//描述rpc method
+class RpcMethod{
+    # method_type_ : RpcType
+
+}
+
+//该类之与MethodHandler相关，不耦合具体的request和response类型，而在MethodHandler,参数用void*表示，
+//这样抽象，转换在MethodHandler的子类进行,实现处理方式的多样性。也就是说对RpcServiceMethod而言，每一个method被抽象为包含runHandler
+//虚函数的对象，而网络接收的参数统一由HandlerParam表示
+//描述服务端，记录服务端相关信息，比如server tag；Server side rpc method class
+class RpcServiceMethod{
+    # handler_ : std::unique_ptr<MethodHandler> 
+    # 
+
+   //enum class ApiType {
+    //SYNC,
+    //ASYNC,
+    //RAW,
+    //CALL_BACK,  // not CALLBACK because that is reserved in Windows
+    //RAW_CALL_BACK,
+  //};
+}
+
+RpcMethod <|-- RpcServiceMethod : public
+@enduml

@@ -24,7 +24,7 @@ SID（服务器的唯一标识）和ZXID（事务ID）
 文件系统： znode
 
 
-投票消息 vote msg：
+投票消息 vote msg：(protobuf message)
     serverId : myid
     Zxid 
     
